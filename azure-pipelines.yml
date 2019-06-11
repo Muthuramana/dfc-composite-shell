@@ -34,3 +34,8 @@ jobs:
     inputs:
      command: test
      projects: '$(SolutionBaseName).Test\$(SolutionBaseName).Test.csproj'
+
+  - task: SonarCloudAnalyze@1
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
