@@ -26,14 +26,14 @@ jobs:
     displayName: 'dotnet build application'
     inputs:
      command: build
-     projects: '**\$(SolutionBaseName).csproj'
+     projects: '**/*.csproj'
      arguments: '-o "$(build.artifactstagingdirectory)\Build\"'
 
   - task: DotNetCoreCLI@2
     displayName: 'dotnet test application'
     inputs:
      command: test
-     projects: '**\$(SolutionBaseName).Test.csproj'
+     projects: '**/*Test.csproj'
 
   - task: SonarCloudAnalyze@1
   - task: SonarCloudPublish@1
