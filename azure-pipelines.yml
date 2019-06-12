@@ -1,0 +1,41 @@
+variables:
+    SolutionBaseName: 'DFC.Composite.Shell'
+    BuildPlatform: 'any cpu'
+    BuildConfiguration: 'release'
+
+jobs:
+
+- job: BuildDotNetCore
+  displayName: Build-DotNetCore
+  pool:
+    demands:
+    - msbuild
+    - visualstudio
+
+  steps:
+
+  - task: SonarCloudPrepare@1
+    inputs:
+     SonarCloud: '$(SonarCloud)'
+     organization: 'muthuramana-github'
+     scannerMode: MSBuild
+     projectKey: '$(SonarCloudKey)'
+     projectName: 'dfc-composite-shell'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build application'
+    inputs:
+     command: build
+     projects: '$(SolutionBaseName)\$(SolutionBaseName).csproj'
+     arguments: '-o "$(build.artifactstagingdirectory)\Build\"'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet test application'
+    inputs:
+     command: test
+     projects: '$(SolutionBaseName).Test\$(SolutionBaseName).Test.csproj'
+
+  - task: SonarCloudAnalyze@1
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
