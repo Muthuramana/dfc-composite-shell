@@ -30,7 +30,7 @@ jobs:
     displayName: 'dotnet build application'
     inputs:
      command: build
-     projects: '**/*.csproj'
+     projects: '**/*.sln'
      arguments: '-o "$(build.artifactstagingdirectory)\Build\"'
 
   - task: DotNetCoreCLI@2
